@@ -4,6 +4,37 @@ class PaymentsController < ApplicationController
   end
 
   def purchase
+    id = params[:id]
+    if id == 'flakycookie'
+      amount_cents = params[:amount_cents].to_i
+      if amount_cents
+        begin
+          customer = Stripe::Customer.create(
+            :email => payment_params[:email],
+            :card  => params[:stripeToken],
+            :metadata => {
+              :first_name => params[:first_name],
+              :last_name => params[:last_name],
+              :source => 'cordon',
+            },
+          )
+          amount = (amount_cents * 1.017).ceil + 20
+          charge = Stripe::Charge.create(
+            :customer    => customer.id,
+            :amount      => amount,
+            :currency    => 'gbp',
+            :metadata    => {
+              :source => 'cordon'
+            }
+          )
+          render json: { status: "success" }
+          return
+        rescue Stripe::CardError => e
+          render json: { errors: e.message }, status: 400
+        end
+      end
+    end
+
     @item = Item.find(params[:id])
 
     if @item.capacity != 0 and (@item.payments_count > @item.capacity)
