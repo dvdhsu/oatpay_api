@@ -13,7 +13,7 @@ require 'mina/rvm'    # for rvm support. (http://rvm.io)
 set :rails_env, 'production'
 
 set :domain, 'getcashew.com'
-set :deploy_to, '/srv/oatpay/api/'
+set :deploy_to, '/srv/oatpay_api/'
 set :repository, 'https://github.com/dvdhsu/oatpay_api.git'
 set :branch, 'master'
 

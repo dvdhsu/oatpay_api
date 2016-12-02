@@ -12,7 +12,7 @@ class SocietySerializer < ActiveModel::Serializer
       "email": object.email,
       "created_at": object.created_at,
       "updated_at": object.updated_at,
-      "verified:": object.verified,
+      "verified": object.verified,
       "balance": balance,
       "sort_code": sort_code,
       "account_number": account_number,
